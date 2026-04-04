@@ -3,7 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import { PORT } from "./config/env.js";
+import connectDb from "./config/db.js";
 const app = express();
+
+await connectDb();
 
 //Middlewares
 app.use(cors());
