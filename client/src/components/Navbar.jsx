@@ -37,7 +37,7 @@ const Navbar = () => {
                       setIsDropdownOpen(false);
                       navigate("/admin");
                   }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left cursor-pointer"
                >
                   Admin Panel
                </button>
@@ -46,7 +46,7 @@ const Navbar = () => {
                       setIsDropdownOpen(false);
                       handleLogout();
                   }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left cursor-pointer"
                >
                   Logout
                </button>
