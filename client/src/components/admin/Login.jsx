@@ -3,6 +3,7 @@ import { login } from "../../api/auth.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../slice/authSlice";
+import { assets } from "../../assets/assets";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -28,7 +29,13 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <img
+        onClick={() => navigate("/")}
+        src={assets.logo}
+        alt="QuickBlog Logo"
+        className="w-40 cursor-pointer mb-8"
+      />
       <div className="w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signup } from "../../api/auth.js";
 import { useNavigate, Link } from "react-router-dom";
+import { assets } from "../../assets/assets";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -26,8 +27,14 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <img
+        onClick={() => navigate("/")}
+        src={assets.logo}
+        alt="QuickBlog Logo"
+        className="w-40 cursor-pointer mb-8"
+      />
+      <div className="w-full max-w-md p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">
             <h1 className="text-3xl font-bold">
