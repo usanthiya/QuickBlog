@@ -2,11 +2,15 @@ import React from "react";
 import { assets } from "../../assets/assets";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
+import { logout } from "../../slice/authSlice";
+import { useDispatch } from "react-redux";
 
 const Layout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const logout = () => {
+  const handleLogout = () => {
+    dispatch(logout());
     navigate('/');
   }
   return (
@@ -20,7 +24,7 @@ const Layout = () => {
         />
         <button 
           className="text-sm px-8 py-2 bg-primary text-white rounded-full cursor-pointer"
-          onClick={() => logout()}
+          onClick={() => handleLogout()}
         >
           Logout
         </button>

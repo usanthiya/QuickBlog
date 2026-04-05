@@ -13,7 +13,6 @@ const Signup = () => {
     e.preventDefault();
     try{
         const response = await signup(name, email, password, mobile);
-        console.log("Signup response: ", response)
         if(response.success){
           alert(response.message);
           navigate('/admin');

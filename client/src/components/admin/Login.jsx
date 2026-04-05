@@ -14,7 +14,6 @@ const Login = () => {
     e.preventDefault();
     try{
         const response = await login(email, password);
-        console.log("Login response: ", response)
         if(response.success){
           alert(response.message);
           dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
