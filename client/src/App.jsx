@@ -9,22 +9,25 @@ import AddBlog from "./pages/admin/AddBlog";
 import ListBlog from "./pages/admin/ListBlog";
 import Comments from "./pages/admin/Comments";
 import Login from "./components/admin/Login";
+import Signup from "./components/admin/Signup";
 import 'quill/dist/quill.snow.css';
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const { token } = useSelector((state) => state.auth);
+
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog/:id" element={<Blog />} />
-        <Route path="/admin" element={true? <Layout /> : <Login/>}>
-          <Route index element={<Dashboard />} />
-          <Route path="addBlog" element={<AddBlog />} />
-          <Route path="listBlog" element={<ListBlog />} />
-          <Route path="comments" element={<Comments />} />
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/blog/:id" element={<Blog />} />
+      <Route path="/admin" element={ token ? <Layout /> : <Login/>}>
+        <Route index element={<Dashboard />} />
+        <Route path="addBlog" element={<AddBlog />} />
+        <Route path="listBlog" element={<ListBlog />} />
+        <Route path="comments" element={<Comments />} />
+      </Route>
+      <Route path="/admin/signup" element={<Signup />} />
+    </Routes>
   );
 };
 

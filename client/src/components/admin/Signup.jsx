@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { login } from "../../api/auth.js";
+import { signup } from "../../api/auth.js";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../slice/authSlice";
 
-const Login = () => {
+const Signup = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-        const response = await login(email, password);
-        console.log("Login response: ", response)
+        const response = await signup(name, email, password, mobile);
+        console.log("Signup response: ", response)
         if(response.success){
           alert(response.message);
-          dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           navigate('/admin');
         }else{
           alert(response.message);
         }
     }catch(error){
-      alert(response.message || "Login failed. Please try again.");
-      console.error("Login error:", error);
+      alert(response.message || "Signup failed. Please try again.");
+      console.error("Signup error:", error);
     }
   };
 
@@ -34,13 +32,24 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">
             <h1 className="text-3xl font-bold">
-              <span className="text-primary">Admin</span> Login
+              <span className="text-primary">Admin</span> Signup
             </h1>
             <p className="font-light">
-              Enter your credentials to access the admin panel.
+                Enter your details to create a new admin account.
             </p>
           </div>
           <form onSubmit={handleSubmit} className="w-full mt-6  sm:max-w-md text-gray-600">
+             <div className="flex flex-col">
+              <lable>Name</lable>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                required
+                placeholder="Your name"
+                className="border-b-2 border-gray-300 p-2 outline-none mb-6"
+              />
+            </div>
             <div className="flex flex-col">
               <lable>Email</lable>
               <input
@@ -63,13 +72,24 @@ const Login = () => {
                 className="border-b-2 border-gray-300 p-2 outline-none mb-6"
               />
             </div>
+            <div className="flex flex-col">
+              <lable>Mobile</lable>
+              <input
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                type="text"
+                required
+                placeholder="Your mobile number"
+                className="border-b-2 border-gray-300 p-2 outline-none mb-6"
+              />
+            </div>
             <button
               type="submit"
               className="w-full py-3 font-medium bg-primary text-white rounded cursor-pointer hover:bg-primary/90 transition-all"
             >
-              Login
+              Signup
             </button>
-            <p className="mt-4 text-center">Don't have an account? <Link to="/admin/signup" className="text-primary hover:underline">Signup</Link></p>
+            <p className="mt-4 text-center">Already have an account? <Link to="/admin" className="text-primary hover:underline">Login</Link></p>
           </form>
         </div>
       </div>
@@ -77,4 +97,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

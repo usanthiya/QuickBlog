@@ -32,10 +32,9 @@ export const signup = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.log("Error in admin signup", error.message);
-    res.status(500).json({
+    res.json({
         success: false,
-        message: "Error in admin signup",
-        error: error.message,
+        message: error.message || "Error in admin signup"
       });
   }
 };
@@ -76,10 +75,9 @@ export const login = async (req, res) => {
    
   } catch (error) {
     console.log("Error in admin login", error.message);
-    res.status(500).json({
+    res.json({
         success: false,
-        message: "Error in admin login",
-        error: error.message,
+        message: error.message || "Error in admin login"
     });
   }
 };
