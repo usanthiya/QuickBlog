@@ -5,6 +5,7 @@ dotenv.config();
 import { PORT } from "./config/env.js";
 import connectDb from "./config/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import blogRoutes from './routes/blogRoutes.js';
 const app = express();
 
 await connectDb();
@@ -18,6 +19,7 @@ app.get('/', (req, res)=> {
     res.send("Welcome to QuickBlog API");
 })
 app.use('/api/admin', adminRoutes);
+app.use('/api/blogs', blogRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);

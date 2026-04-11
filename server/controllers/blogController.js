@@ -1,7 +1,8 @@
 import fs from 'fs';
 import imagekit from '../config/imageKit.js';
+import blogModel from '../models/blogModel.js';
 
-const addBlog = async (req, res) => {
+export const addBlog = async (req, res) => {
     const result ={
         sucess: true,
         message: "Blog added successfully",
@@ -24,6 +25,31 @@ const addBlog = async (req, res) => {
         fileName,
         folder: "/blogs"
        })
+
+       //Optimization through imageKit URL transformation
+       const optimizedImageUrl = imagekit.url({
+         path: response.filePath,
+         transformation: [
+            {
+                quality: "auto", // Auto compression
+                format: "webp", // Convert to modern WebP format for better performance
+                width: "1280" //width resizing for faster loading
+            }
+         ]
+       });
+
+       const image = optimizedImageUrl;
+
+       await blogModel.create({
+        title,
+        subTitle,
+        description,
+        category,
+        image,
+        isPublished
+       });
+
+       res.json(result);
     }catch(error){
         console.log("Error in add blog", error.message);
         res.json({ 
