@@ -19,7 +19,7 @@ app.get('/', (req, res)=> {
     res.send("Welcome to QuickBlog API");
 })
 app.use('/api/admin', adminRoutes);
-app.use('/api/blogs', blogRoutes);
+app.use('/api/blog', blogRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);

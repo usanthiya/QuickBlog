@@ -8,9 +8,10 @@ export const addBlog = async (req, res) => {
         message: "Blog added successfully",
         data: null
     }
+    console.log("req user: ", req.user)
     try{
-       const { title, subTitle, description, category, isPublished } = req.body;
-       const { imageFile } = req.file;
+       const { title, subTitle, description, category, isPublished } = JSON.parse(req.body.blog);
+       const imageFile = req.file;
 
        if(!title || !description || !category || !imageFile){
         throw new Error("Missing required fields");

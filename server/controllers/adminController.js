@@ -13,12 +13,12 @@ export const signup = async (req, res) => {
     const { name, email, password, mobile } = req.body;
 
     if (!name || !email || !password || !mobile) {
-        throw new Error("All fields are required");
+      throw new Error("All fields are required");
     }
 
     const existingAdmin = await userModel.findOne({ email });
     if (existingAdmin) {
-        throw new Error("Admin with this email already exists. Please Login.");
+      throw new Error("Admin with this email already exists. Please Login.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,9 +33,9 @@ export const signup = async (req, res) => {
   } catch (error) {
     console.log("Error in admin signup", error.message);
     res.json({
-        success: false,
-        message: error.message || "Error in admin signup"
-      });
+      success: false,
+      message: error.message || "Error in admin signup",
+    });
   }
 };
 
@@ -49,36 +49,40 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if(!email || !password){
-        throw new Error("Email and password are required");
+    if (!email || !password) {
+      throw new Error("Email and password are required");
     }
 
     const user = await userModel.findOne({ email });
-    
-    if(!user){
-        throw new Error("Admin with this email does not exist. Please Signup first.");
+
+    if (!user) {
+      throw new Error(
+        "Admin with this email does not exist. Please Signup first.",
+      );
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
-    
-    if(!passwordMatch){
-        throw new Error("Invalid password. Please try again.");
-    }
-   
-    const token = jwt.sign({ id: user._id}, SECURITY_SECRET, { expiresIn : '7d'})
- 
-    result.data = { 
-        token,
-        user
+
+    if (!passwordMatch) {
+      throw new Error("Invalid password. Please try again.");
     }
 
+    const token = jwt.sign(
+      { user: { id: user._id, name: user.name, email: user.email } },
+      SECURITY_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    result.data = {
+      token,
+      user,
+    };
+
     return res.status(200).json(result);
-   
   } catch (error) {
     console.log("Error in admin login", error.message);
     res.json({
-        success: false,
-        message: error.message || "Error in admin login"
+      success: false,
+      message: error.message || "Error in admin login",
     });
   }
 };
-
