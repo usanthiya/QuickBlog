@@ -1,5 +1,7 @@
 import { SECURITY_SECRET } from "../config/env.js";
 import userModel from "../models/userModel.js";
+import blogModel from "../models/blogModel.js";
+import commentModel from "../models/commentModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -86,3 +88,59 @@ export const login = async (req, res) => {
     });
   }
 };
+
+export const getAllBlogsAdmin = async(req, res) => {
+  const result = {
+    success: true,
+    message: "Blogs listed successfully",
+    data: null
+  }
+  try{
+    const blogs = await blogModel.find({}).sort({ createdAt: -1});
+
+    result.data = blogs;
+    return res.json(result);
+  }catch(error){
+    console.error("Error listing all Blogs: ", error);
+    res.josn({ success: false, message: error.message });
+  }
+}
+
+export const getAllComments = async (req, res) => {
+  const result = {
+    success: true,
+    message: "Comments listed successfully",
+    data: null
+  }
+  try{
+    const comments = await commentModel.find({}).populate("blogId").sort({ createdAt: -1 });
+
+    result.data = comments;
+    return res.json(result);
+  }catch(error){
+    console.error("Error listing all Comments: ", error);
+    res.josn({ success: false, message: error.message });
+  }
+}
+
+export const getDashboardData = async(req, res) => {
+   const result = {
+    success: true,
+    message: "Dashborard Data listed successfully",
+    data: null
+  }
+  try{
+    const blogs = await blogModel.countDocuments({isPublished: true});
+    const comments = await commentModel.countDocuments({isApproved: true});
+    const drafts = await blogModel.countDocuments({isPublished: false});
+    const recentBlogs = await blogModel.find({isPublished: true}).sort({createdAt: -1}).limit(5);
+
+    result.data = {
+      blogs, comments, drafts, recentBlogs
+    }
+    return res.json(result);
+  }catch(error){
+    console.error("Error in dashboard data: ", error);
+    res.josn({ success: false, message: error.message });
+  }
+}

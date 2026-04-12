@@ -1,6 +1,7 @@
 import fs from "fs";
 import imagekit from "../config/imageKit.js";
 import blogModel from "../models/blogModel.js";
+import commentModel from "../models/commentModel.js";
 
 export const addBlog = async (req, res) => {
   const result = {
@@ -138,4 +139,47 @@ export const togglePublish = async(req, res) => {
         console.error("Error in publish toggle: ", error);
         return res.json({ success: false, message: error.message});
     }
+}
+
+export const addComment = async (req, res) => {
+  const result = {
+    success: true,
+    message: "Comment added for review",
+    data: null
+  }
+  try{
+    const { blogId, name, content } = req.body;
+
+    if(!blogId || name || content){
+      throw new Error("All fields are required");
+    }
+
+    const comment = await commentModel.create({ blogId, name, content});
+    result.data = comment;
+    return res.json(result);
+  }catch(error){
+    console.error("Error adding comment: ", error);
+    res.json({ success: false, message: error.message});
+  }
+}
+
+export const getBlogComments = async(req, res) => {
+  const result = {
+    success: true,
+    message: "",
+    data: null
+  }
+  try{
+    const { blogId } = req.body;
+
+    const comments = await commentModel.find({ blogId, isApproved: true }).sort({ createdAt: -1 });
+    if(!comments){
+      return res.json({ success: true, message: "No comments found for this Blog"})
+    }
+    result.data = comments;
+    return res.json(result);
+  }catch(error){
+    console.error("Error getting blog comments: ", error);
+    return res.json({ success: false, message: error.message });
+  }
 }
