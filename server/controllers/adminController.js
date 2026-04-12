@@ -144,3 +144,37 @@ export const getDashboardData = async(req, res) => {
     res.josn({ success: false, message: error.message });
   }
 }
+
+export const deleteCommentById = async (req, res) => {
+   const result = {
+    success: true,
+    message: "Comment deleted successfully",
+    data: null
+  }
+  try{
+    const { id } = req.body;
+    await commentModel.findByIdAndDelete(id);
+
+    return res.json(result);
+  }catch(error){
+    console.error("Error deleting comment: ", error);
+    return res.json({ success: false, message: error.message })
+  }
+}
+
+export const approveCommentById = async (req, res) => {
+   const result = {
+    success: true,
+    message: "Comment approved successfully",
+    data: null
+  }
+  try{
+    const { id } = req.body;
+    await commentModel.findByIdAndUpdate(id, { isApproved: true });
+
+    return res.json(result);
+  }catch(error){
+    console.error("Error approving comment: ", error);
+    return res.json({ success: false, message: error.message })
+  }
+}
