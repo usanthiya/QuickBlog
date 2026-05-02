@@ -4,26 +4,32 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../slice/authSlice";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
 
 const Login = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-        const response = await login(email, password);
-        if(response.success){
-          alert(response.message);
-          dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
-          navigate('/admin');
-        }else{
-          alert(response.message);
-        }
-    }catch(error){
-      alert(response.message || "Login failed. Please try again.");
+    try {
+      const response = await login(email, password);
+      if (response.success) {
+        toast.success(response.message);
+        dispatch(
+          loginSuccess({
+            token: response.data.token,
+            user: response.data.user,
+          }),
+        );
+        navigate("/admin");
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error(response.message || "Login failed. Please try again.");
       console.error("Login error:", error);
     }
   };
@@ -46,7 +52,10 @@ const Login = () => {
               Enter your credentials to access the admin panel.
             </p>
           </div>
-          <form onSubmit={handleSubmit} className="w-full mt-6  sm:max-w-md text-gray-600">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full mt-6  sm:max-w-md text-gray-600"
+          >
             <div className="flex flex-col">
               <lable>Email</lable>
               <input
@@ -75,7 +84,12 @@ const Login = () => {
             >
               Login
             </button>
-            <p className="mt-4 text-center">Don't have an account? <Link to="/admin/signup" className="text-primary hover:underline">Signup</Link></p>
+            <p className="mt-4 text-center">
+              Don't have an account?{" "}
+              <Link to="/admin/signup" className="text-primary hover:underline">
+                Signup
+              </Link>
+            </p>
           </form>
         </div>
       </div>

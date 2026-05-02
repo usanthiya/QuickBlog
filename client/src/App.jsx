@@ -12,14 +12,21 @@ import Login from "./components/admin/Login";
 import Signup from "./components/admin/Signup";
 import "quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { token } = useSelector((state) => state.auth);
 
   return (
     <div>
-      <Toaster/>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        closeOnClick={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog/:id" element={<Blog />} />

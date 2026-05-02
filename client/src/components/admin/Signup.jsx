@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signup } from "../../api/auth.js";
 import { useNavigate, Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -15,13 +16,13 @@ const Signup = () => {
     try{
         const response = await signup(name, email, password, mobile);
         if(response.success){
-          alert(response.message);
+          toast.success(response.message);
           navigate('/admin');
         }else{
-          alert(response.message);
+          toast.error(response.message);
         }
     }catch(error){
-      alert(response.message || "Signup failed. Please try again.");
+      toast.error(response.message || "Signup failed. Please try again.");
       console.error("Signup error:", error);
     }
   };
