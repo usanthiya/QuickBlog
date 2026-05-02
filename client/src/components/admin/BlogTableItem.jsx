@@ -1,7 +1,10 @@
 import React from "react";
 import { assets } from "../../assets/assets";
+import { useDispatch } from "react-redux";
+import { fetchDashboardStats } from "../../slice/dashboard.js";
 
-const BlogTableItem = ({ blog, fetchBlogs, index }) => {
+const BlogTableItem = ({ blog, index }) => {
+  const dispatch = useDispatch();
   const { title, createdAt } = blog;
   const BlogDate = new Date(createdAt);
 
@@ -16,10 +19,18 @@ const BlogTableItem = ({ blog, fetchBlogs, index }) => {
             </p>
         </td>
         <td className="px-2 py-4 flex text-xs gap-3">
-            <button className="border px-2 py-0.5 mt-1 rounded cursor-pointer">
+            <button 
+                onClick={() => dispatch(fetchDashboardStats())}
+                className="border px-2 py-0.5 mt-1 rounded cursor-pointer"
+            >
                 {blog.isPublished ? "Unpublish" : "Publish"}
             </button>
-            <img src={assets.cross_icon} className="w-4 hover:scale-110 transition-all cursor-pointer" alt="Delete" />
+            <img 
+                src={assets.cross_icon} 
+                onClick={() => dispatch(fetchDashboardStats())}
+                className="w-4 hover:scale-110 transition-all cursor-pointer" 
+                alt="Delete" 
+            />
         </td>
     </tr>
   ) 

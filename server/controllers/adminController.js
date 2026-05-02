@@ -126,7 +126,7 @@ export const getAllComments = async (req, res) => {
 export const getDashboardData = async(req, res) => {
    const result = {
     success: true,
-    message: "Dashborard Data listed successfully",
+    message: "Dashboard Data listed successfully",
     data: null
   }
   try{

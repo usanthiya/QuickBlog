@@ -1,23 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { assets, dashboard_data } from "../../assets/assets";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { assets } from "../../assets/assets";
 import BlogTableItem from "../../components/admin/BlogTableItem";
+import { fetchDashboardStats } from "../../slice/dashboard.js";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const { dashboard: dashboardData, loading, error } = useSelector((state) => state.dashboard);
+  
+  useEffect(() => {
+    dispatch(fetchDashboardStats())
+  }, []);
 
-  const [dashboardData, setDashboardData] = useState({
-    blogs: 0,
-    comments: 0,
-    drafts: 0,
-    recentBlogs: [],
-  });
-
-  const fetchDashboardData = () => {
-    setDashboardData(dashboard_data);
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center min-h-[400px] flex-1'>
+         <div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary'></div>
+      </div>
+    )
   }
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  if (error) {
+    return (
+      <div className='flex-1 flex flex-col justify-center items-center my-20'>
+        <p className='text-red-500'>Error: {error}</p>
+        <button 
+          onClick={() => dispatch(fetchDashboardStats())}
+          className='mt-4 px-6 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all'>
+          Retry
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="flex-1 p-4 md:p-10 bg-blue-50/50">
@@ -67,7 +81,7 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {dashboardData.recentBlogs.map((blog, index)=> {
-                return <BlogTableItem index={index+1} key={blog._id} blog={blog} fetchBlogs={fetchDashboardData}/>
+                return <BlogTableItem index={index+1} key={blog._id} blog={blog}/>
               })}
             </tbody>
            </table>
