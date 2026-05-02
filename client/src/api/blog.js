@@ -1,10 +1,8 @@
-import { API_URL } from '../setup/config/env';
-import axios from 'axios';
-
+import api from '../setup/helpers/apiService.js';
 
 export const getAllBlogs = async () => {
     try{
-       const response = await axios.get(`${API_URL}/api/blog/`);
+       const response = await api.get(`/api/blog/`);
        return response.data;
     }catch(error){
         console.error("Error getting All Blogs: ", error)
