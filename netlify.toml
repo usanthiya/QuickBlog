@@ -1,6 +1,7 @@
 [build]
   command = "npm run build:client"
   publish = "client/dist"
+  site_id = "quickblog-placeholder"
 
 [functions]
   directory = "server/functions"

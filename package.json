@@ -8,5 +8,8 @@
   ],
   "scripts": {
     "build:client": "npm run build --workspace=client"
+  },
+  "devDependencies": {
+    "netlify-cli": "^16.0.0"
   }
 }
