@@ -1,6 +1,7 @@
 {
   "name": "quickblog-monorepo",
   "private": true,
+  "type": "module",
   "workspaces": [
     "client",
     "server"
