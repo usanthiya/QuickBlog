@@ -34,6 +34,21 @@ const api = {
       throw error;
     }
   },
+  delete: async (url, headers) => {
+    const token = getTokenFromLocalStorage();
+    try {
+      const response = await axios.delete(`${API_URL}${url}`, {
+        headers: {
+          authentication: `Bearer ${token}`,
+          ...headers,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error("Error in API DELETE request: ", error);
+      throw error;
+    }
+  },
 };
 
 export default api;
