@@ -1,5 +1,5 @@
 const serverless = require('serverless-http');
+const app = require('../server.cjs');
 module.exports.handler = async (event, context) => {
-  const { default: app } = await import('../server.js');
   return serverless(app)(event, context);
 };
