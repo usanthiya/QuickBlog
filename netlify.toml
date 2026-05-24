@@ -6,6 +6,8 @@
 [functions]
   directory = "server/functions"
   node_bundler = "esbuild"
+  included_files = ["server/**/*.js"]
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/api/*"
