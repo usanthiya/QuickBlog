@@ -29,7 +29,7 @@ const Login = () => {
         toast.error(response.message);
       }
     } catch (error) {
-      toast.error(response.message || "Login failed. Please try again.");
+      toast.error(error.response?.data?.message || error.message || "Login failed. Please try again.");
       console.error("Login error:", error);
     }
   };

@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { blog_data } from '../../assets/assets';
 import BlogTableItem from "../../components/admin/BlogTableItem";
+import { getAllBlogsAdmin } from "../../api/admin";
+import { toast } from "react-toastify";
 
 const ListBlog = () => {
   const [blogs, setBlogs] = useState([]);
 
   const fetchBlogs = async () => {
-     setBlogs(blog_data);
-
-  }
+    try {
+      const response = await getAllBlogsAdmin();
+      if (response.success) {
+        setBlogs(response.data || []);
+      } else {
+        toast.error(response.message || "Failed to fetch blogs");
+      }
+    } catch (error) {
+      console.error("Error fetching admin blogs:", error);
+      toast.error("Failed to load blogs. Please try again.");
+    }
+  };
 
   useEffect(() => {
-   fetchBlogs();
+    fetchBlogs();
   }, []);
 
   return (

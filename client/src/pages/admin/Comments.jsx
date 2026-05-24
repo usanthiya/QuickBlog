@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CommentTableItem from "../../components/admin/CommentTableItem";
-import { comments_data } from "../../assets/assets";
-import { useEffect } from "react";
+import { getAllCommentsAdmin } from "../../api/admin";
+import { toast } from "react-toastify";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Not Approved");
 
   const fetchComments = async () => {
-    setComments(comments_data);
-  }
+    try {
+      const response = await getAllCommentsAdmin();
+      if (response.success) {
+        setComments(response.data || []);
+      } else {
+        toast.error(response.message || "Failed to fetch comments");
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      toast.error("Failed to load comments");
+    }
+  };
 
   useEffect(() => {
-   fetchComments();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchComments();
   }, []);
 
   return (

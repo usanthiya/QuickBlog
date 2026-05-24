@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { assets, blog_data, comments_data } from "../assets/assets";
+import { assets } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import moment from "moment";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import { getBlogById, getBlogComments, addComment } from "../api/blog";
+import { toast } from "react-toastify";
 
 const Blog = () => {
   const { id } = useParams();
@@ -14,22 +16,56 @@ const Blog = () => {
   const [content, setContent] = useState("");
 
   const fetchBlog = async () => {
-    const data = blog_data.find((blog) => blog._id === id);
-    setData(data);
+    try {
+      const response = await getBlogById(id);
+      if (response.success) {
+        setData(response.data);
+      } else {
+        toast.error(response.message || "Failed to load blog");
+      }
+    } catch (error) {
+      console.error("Error fetching blog:", error);
+      toast.error("Failed to load blog");
+    }
   };
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const response = await getBlogComments(id);
+      if (response.success) {
+        setComments(response.data || []);
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
   };
 
-  const addComment =(event) => {
+  const handleAddComment = async (event) => {
     event.preventDefault();
-  }
+    if (!name.trim() || !content.trim()) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    try {
+      const response = await addComment({ blogId: id, name, content });
+      if (response.success) {
+        toast.success(response.message || "Comment submitted for review");
+        setName("");
+        setContent("");
+      } else {
+        toast.error(response.message || "Failed to add comment");
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      toast.error("Failed to add comment");
+    }
+  };
 
   useEffect(() => {
     fetchBlog();
     fetchComments();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return data ? (
     <div className="relative">
@@ -86,7 +122,7 @@ const Blog = () => {
       <div className="max-w-3xl mx-auto">
         <p className="font-medium mb-4">Add your comment</p>
         <form
-          onSubmit={addComment}
+          onSubmit={handleAddComment}
           className="flex flex-col items-start gap-4 max-w-lg"
         >
           <input
@@ -117,10 +153,43 @@ const Blog = () => {
       {/* Share Buttons */}
       <div className="my-24 max-w-3xl mx-auto">
         <p className="font-semibold my-4">Share this article on social media</p>
-        <div className="flex">
-           <img src={assets.facebook_icon} width={50} alt="" />
-           <img src={assets.twitter_icon} width={50} alt="" />
-           <img src={assets.googleplus_icon} width={50} alt="" />
+        <div className="flex gap-2">
+          <img
+            src={assets.facebook_icon}
+            width={50}
+            alt="Share on Facebook"
+            className="cursor-pointer hover:scale-110 transition-all"
+            onClick={() =>
+              window.open(
+                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
+                '_blank'
+              )
+            }
+          />
+          <img
+            src={assets.twitter_icon}
+            width={50}
+            alt="Share on Twitter"
+            className="cursor-pointer hover:scale-110 transition-all"
+            onClick={() =>
+              window.open(
+                `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(data.title)}`,
+                '_blank'
+              )
+            }
+          />
+          <img
+            src={assets.googleplus_icon}
+            width={50}
+            alt="Share on LinkedIn"
+            className="cursor-pointer hover:scale-110 transition-all"
+            onClick={() =>
+              window.open(
+                `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
+                '_blank'
+              )
+            }
+          />
         </div>
       </div>
       <Footer />

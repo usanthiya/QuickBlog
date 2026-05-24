@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { assets, blogCategories } from "../../assets/assets";
 import Quill from "quill";
+import { addBlog } from "../../api/blog"; 
+import { toast } from "react-toastify";
 
 const AddBlog = () => {
   const editorRef = useRef(null);
@@ -11,11 +13,64 @@ const AddBlog = () => {
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("Startup");
   const [isPublished, setIsPublished] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const generateContent = () => {};
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    if (!image) {
+      toast.error("Please upload a thumbnail image.");
+      return;
+    }
+
+    const description = quillRef.current ? quillRef.current.root.innerHTML : "";
+    const textContent = quillRef.current ? quillRef.current.getText().trim() : "";
+    if (!textContent) {
+      toast.error("Blog description cannot be empty.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append(
+        "blog",
+        JSON.stringify({
+          title,
+          subTitle,
+          description,
+          category,
+          isPublished,
+        })
+      );
+
+      const response = await addBlog(formData);
+
+      if (response.success) {
+        toast.success(response.message || "Blog added successfully");
+        // Reset state
+        setTitle("");
+        setSubTitle("");
+        setCategory("Startup");
+        setImage(null);
+        setIsPublished(false);
+        if (quillRef.current) {
+          quillRef.current.root.innerHTML = "";
+        }
+      } else {
+        toast.error(response.message || "Failed to add blog");
+      }
+    } catch (error) {
+      console.error("Error submitting blog:", error);
+      toast.error(
+        error.response?.data?.message || error.message || "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -107,7 +162,13 @@ const AddBlog = () => {
           />
         </div>
 
-        <button type="submit" className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm">Add Blog</button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center hover:bg-primary/95 transition-all"
+        >
+          {loading ? "Adding..." : "Add Blog"}
+        </button>
       </div>
     </form>
   );

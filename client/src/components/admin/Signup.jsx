@@ -22,7 +22,7 @@ const Signup = () => {
           toast.error(response.message);
         }
     }catch(error){
-      toast.error(response.message || "Signup failed. Please try again.");
+      toast.error(error.response?.data?.message || error.message || "Signup failed. Please try again.");
       console.error("Signup error:", error);
     }
   };
