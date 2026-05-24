@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build:client"
+  publish = "client/dist"
+
+[functions]
+  directory = "server/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/api/:splat"
+  status = 200

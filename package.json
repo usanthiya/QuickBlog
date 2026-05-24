@@ -1,0 +1,11 @@
+{
+  "name": "quickblog-monorepo",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "build:client": "npm run build --workspace=client"
+  }
+}
