@@ -5,7 +5,7 @@ import commentModel from "../models/commentModel.js";
 
 export const addBlog = async (req, res) => {
   const result = {
-    sucess: true,
+    success: true,
     message: "Blog added successfully",
     data: null,
   };
@@ -57,7 +57,7 @@ export const addBlog = async (req, res) => {
   } catch (error) {
     console.log("Error in add blog", error.message);
     res.json({
-      sucess: false,
+      success: false,
       message: error.message,
     });
   }
@@ -154,7 +154,7 @@ export const addComment = async (req, res) => {
   try{
     const { blogId, name, content } = req.body;
 
-    if(!blogId || name || content){
+    if(!blogId || !name || !content){
       throw new Error("All fields are required");
     }
 

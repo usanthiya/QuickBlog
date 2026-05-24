@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/add').post(auth, upload.single('image'), addBlog);
 router.route('/').get(getAllBlogs);
-router.route('/:id').get(auth, getBlogById);
+router.route('/:id').get(getBlogById);
 router.route('/:id').delete(auth, deleteBlogById);
 router.route('/toggle-publish').post(auth, togglePublish);
 router.route('/add-comments').post(addComment);

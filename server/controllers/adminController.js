@@ -102,7 +102,7 @@ export const getAllBlogsAdmin = async(req, res) => {
     return res.json(result);
   }catch(error){
     console.error("Error listing all Blogs: ", error);
-    res.josn({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 }
 
@@ -119,7 +119,7 @@ export const getAllComments = async (req, res) => {
     return res.json(result);
   }catch(error){
     console.error("Error listing all Comments: ", error);
-    res.josn({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 }
 
@@ -141,7 +141,7 @@ export const getDashboardData = async(req, res) => {
     return res.json(result);
   }catch(error){
     console.error("Error in dashboard data: ", error);
-    res.josn({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 }
 
