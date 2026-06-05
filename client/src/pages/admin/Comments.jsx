@@ -48,7 +48,7 @@ const Comments = () => {
       </div>
 
       <div className="relative max-w-5xl overflow-hidden mt-4 bg-white/70 backdrop-blur-lg shadow-xl rounded-3xl border border-white/50">
-         <table className="w-full text-sm text-slate-600">
+        <table className="w-full text-sm text-slate-600">
           <thead className="text-xs text-slate-700 text-left uppercase bg-slate-100/50">
             <tr>
               <th scope="col" className="px-6 py-5 font-semibold"> Blog Title & Comment</th>
@@ -57,12 +57,26 @@ const Comments = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200/60">
-            {comments.filter((comment)=> {
-              if(filter === "Approved") return comment.isApproved === true;
-              return comment.isApproved === false;
-            }).map((comment, index)=> <CommentTableItem key={comment._id} comment={comment} index={index +1} fetchComments={fetchComments}/>)}
+            {(() => {
+              const filtered = comments.filter((comment) => {
+                if (filter === "Approved") return comment.isApproved === true;
+                return comment.isApproved === false;
+              });
+              if (filtered.length === 0) {
+                return (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-12 text-center text-slate-400 text-sm">
+                      No comments found
+                    </td>
+                  </tr>
+                );
+              }
+              return filtered.map((comment, index) => (
+                <CommentTableItem key={comment._id} comment={comment} index={index + 1} fetchComments={fetchComments} />
+              ));
+            })()}
           </tbody>
-         </table>
+        </table>
       </div>
     </div>
   );

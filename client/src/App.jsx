@@ -10,7 +10,7 @@ import ListBlog from "./pages/admin/ListBlog";
 import Comments from "./pages/admin/Comments";
 import Login from "./components/admin/Login";
 import Signup from "./components/admin/Signup";
-import "quill/dist/quill.snow.css";
+import Account from "./pages/admin/Account";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
@@ -35,6 +35,7 @@ const App = () => {
           <Route path="addBlog" element={<AddBlog />} />
           <Route path="listBlog" element={<ListBlog />} />
           <Route path="comments" element={<Comments />} />
+          <Route path="account" element={<Account />} />
         </Route>
         <Route path="/admin/signup" element={<Signup />} />
       </Routes>

@@ -7,7 +7,7 @@ const auth = async (req, res, next) => {
     const authHeader = req.headers.authentication || req.headers.Authentication;
 
     if (!authHeader || !authHeader.startsWith("Bearer")) {
-      throw new error("Token is not provided");
+      throw new Error("Token is not provided");
     }
 
     const token = authHeader.split(" ")[1];
@@ -15,7 +15,7 @@ const auth = async (req, res, next) => {
     const decoded = await jwt.verify(token, SECURITY_SECRET);
     const user = await userModel.findById(decoded.user.id)
     req.user = user;
-    
+
     next();
   } catch (error) {
     console.error("Authentication error: ", error)

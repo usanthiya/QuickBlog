@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { assets } from "../../assets/assets";
-import { LayoutDashboard, PlusCircle, List, MessageCircle } from "lucide-react";
+import { LayoutDashboard, PlusCircle, List, MessageCircle, User } from "lucide-react";
 
 const Sidebar = () => {
   const navLinkClasses = ({ isActive }) =>
@@ -31,6 +31,11 @@ const Sidebar = () => {
       <NavLink to="/admin/comments" className={navLinkClasses}>
         <MessageCircle className="min-w-4 w-5 opacity-80" />
         <p className="hidden md:inline-block">Comments</p>
+      </NavLink>
+
+      <NavLink to="/admin/account" className={navLinkClasses}>
+        <User className="min-w-4 w-5 opacity-80" />
+        <p className="hidden md:inline-block">Account</p>
       </NavLink>
     </div>
   );

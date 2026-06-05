@@ -49,3 +49,22 @@ export const generateBlogAdmin = async (title) => {
         throw error;
     }
 }
+export const fetchAllUsers = async () => {
+  try {
+    const response = await api.get(`/api/admin/users`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
+export const updateUser = async (id, data) => {
+  try {
+    const response = await api.put(`/api/admin/users/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
