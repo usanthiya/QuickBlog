@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { assets, blogCategories } from "../../assets/assets";
-import Quill from "quill";
-import { addBlog } from "../../api/blog"; 
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { addBlog } from "../../api/blog";
 import { toast } from "react-toastify";
 import { generateBlogAdmin } from "../../api/admin";
 
 const AddBlog = () => {
-  const editorRef = useRef(null);
-  const quillRef = useRef(null);
+  const [description, setDescription] = useState("");
 
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
@@ -21,21 +21,18 @@ const AddBlog = () => {
       toast.error("Please enter a Blog Title first.");
       return;
     }
-    
+
     try {
       setLoading(true);
       const response = await generateBlogAdmin(title);
       if (response.success && response.data) {
         setSubTitle(response.data.subtitle || "");
-        if (quillRef.current) {
-          // Format description and body
-          const htmlContent = `
-            <p><strong>Description:</strong> ${response.data.description || ""}</p>
-            <br/>
-            <div>${(response.data.body || "").replace(/\n/g, "<br/>")}</div>
-          `;
-          quillRef.current.clipboard.dangerouslyPasteHTML(htmlContent);
-        }
+        const htmlContent = `
+          <p><strong>Description:</strong> ${response.data.description || ""}</p>
+          <br/>
+          <div>${(response.data.body || "").replace(/\n/g, "<br/>")}</div>
+        `;
+        setDescription(htmlContent);
         toast.success(response.message || "Content generated successfully!");
       } else {
         toast.error(response.message || "Failed to generate content");
@@ -58,8 +55,7 @@ const AddBlog = () => {
       return;
     }
 
-    const description = quillRef.current ? quillRef.current.root.innerHTML : "";
-    const textContent = quillRef.current ? quillRef.current.getText().trim() : "";
+    const textContent = description.replace(/<[^>]*>/g, "").trim();
     if (!textContent) {
       toast.error("Blog description cannot be empty.");
       return;
@@ -87,12 +83,10 @@ const AddBlog = () => {
         // Reset state
         setTitle("");
         setSubTitle("");
+        setDescription("");
         setCategory("Startup");
         setImage(null);
         setIsPublished(false);
-        if (quillRef.current) {
-          quillRef.current.root.innerHTML = "";
-        }
       } else {
         toast.error(response.message || "Failed to add blog");
       }
@@ -106,12 +100,7 @@ const AddBlog = () => {
     }
   };
 
-  useEffect(() => {
-    //Initiate Quill only once
-    if (!quillRef.current && editorRef.current) {
-      quillRef.current = new Quill(editorRef.current, { theme: "snow" });
-    }
-  }, []);
+
 
   return (
     <div className="flex-1 overflow-y-auto p-4 md:p-10 relative">
@@ -159,8 +148,28 @@ const AddBlog = () => {
 
         <div className="mb-6">
           <label className="block font-medium text-slate-700 mb-2">Blog Description / Body</label>
-          <div className="w-full h-80 relative border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden">
-            <div ref={editorRef} className="h-full border-none"></div>
+          <div className="border border-slate-200 rounded-xl bg-white shadow-sm">
+            <CKEditor
+              editor={ClassicEditor}
+              data={description}
+              onChange={(event, editor) => setDescription(editor.getData())}
+              config={{
+                toolbar: {
+                  items: [
+                    "undo", "redo", '|',
+                    "heading", "|",
+                    "fontFamily", "fontSize", "fontColor", "fontBackgroundColor", "|",
+                    "bold", "italic", "underline", "strikethrough", "subscript", "superscript", "code", "|",
+                    "removeFormat", "|",
+                    "alignment", "|",
+                    "bulletedList", "numberedList", "todoList", "|",
+                    "outdent", "indent", "|",
+                    "link", "blockQuote", "insertTable", "imageUpload", "mediaEmbed", "horizontalLine", "|",
+                  ],
+                  shouldNotGroupWhenFull: true
+                }
+              }}
+            />
           </div>
         </div>
 
