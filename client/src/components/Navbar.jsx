@@ -3,6 +3,7 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../slice/authSlice";
+import { User, ArrowRight } from "lucide-react";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,10 +25,8 @@ const Navbar = () => {
       />
       {token ? (
         <div className="relative">
-          <img 
-             src={assets.user_icon} 
-             alt="profile" 
-             className="w-10 h-10 rounded-full cursor-pointer bg-primary/10 p-2" 
+          <User
+             className="w-10 h-10 rounded-full cursor-pointer bg-primary/10 p-2 text-primary"
              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           />
           {isDropdownOpen && (
@@ -59,7 +58,7 @@ const Navbar = () => {
           className="flex items-center gap-2 rounded-md text-sm bg-primary cursor-pointer text-white px-10 py-2.5"
         >
           Login
-          <img src={assets.arrow} alt="arrow" className="w-3" />
+          <ArrowRight className="w-4 h-4" />
         </button>
       )}
     </div>

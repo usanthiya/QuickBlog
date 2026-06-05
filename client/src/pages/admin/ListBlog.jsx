@@ -25,20 +25,20 @@ const ListBlog = () => {
   }, []);
 
   return (
-    <div className='flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50'>
-       <h1>All Blogs</h1>
-       <div className="relative h-4/5 mt-4 max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white">
-           <table className="w-full text-sm text-gray-500">
-            <thead className="text-xs text-gray-600 text-left uppercase">
+    <div className='flex-1 p-4 md:p-10 relative overflow-y-auto'>
+       <h1 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">All Blogs</h1>
+       <div className="relative mt-4 max-w-5xl overflow-hidden shadow-xl rounded-3xl bg-white/70 backdrop-blur-lg border border-white/50">
+           <table className="w-full text-sm text-slate-600">
+            <thead className="text-xs text-slate-700 text-left uppercase bg-slate-100/50">
                <tr>
-                <th scope="col" className="px-2 py-4 xl:px-6"> # </th>
-                <th scope="col" className="px-2 py-4"> Blog Title </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden"> Date </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden"> Status </th>
-                <th scope="col" className="px-2 py-4"> Actions </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> # </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> Blog Title </th>
+                <th scope="col" className="px-6 py-5 font-semibold max-sm:hidden"> Date </th>
+                <th scope="col" className="px-6 py-5 font-semibold max-sm:hidden"> Status </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> Actions </th>
                </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-200/60">
               {blogs.map((blog, index)=> {
                 return <BlogTableItem index={index+1} key={blog._id} blog={blog} fetchBlogs={fetchBlogs}/>
               })}

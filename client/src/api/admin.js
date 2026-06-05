@@ -39,3 +39,13 @@ export const deleteCommentAdmin = async (id) => {
         throw error;
     }
 }
+
+export const generateBlogAdmin = async (title) => {
+    try {
+        const response = await api.post(`/api/admin/blogs/generate`, { title });
+        return response.data;
+    } catch(error) {
+        console.error("Error generating blog content: ", error);
+        throw error;
+    }
+}

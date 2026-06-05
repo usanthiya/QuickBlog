@@ -4,6 +4,7 @@ import blogModel from "../models/blogModel.js";
 import commentModel from "../models/commentModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { generateBlogContent } from "../services/blogGenerator.js";
 
 export const signup = async (req, res) => {
   const result = {
@@ -176,5 +177,25 @@ export const approveCommentById = async (req, res) => {
   }catch(error){
     console.error("Error approving comment: ", error);
     return res.json({ success: false, message: error.message })
+  }
+}
+
+export const generateBlog = async (req, res) => {
+  const result = {
+    success: true,
+    message: "Blog content generated successfully",
+    data: null
+  }
+  try {
+    const { title } = req.body;
+    if (!title) {
+      throw new Error("Title is required for generation");
+    }
+    const generatedData = await generateBlogContent(title);
+    result.data = generatedData;
+    return res.json(result);
+  } catch (error) {
+    console.error("Error generating blog content: ", error);
+    return res.json({ success: false, message: error.message });
   }
 }

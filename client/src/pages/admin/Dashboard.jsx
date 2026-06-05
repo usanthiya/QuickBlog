@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { assets } from "../../assets/assets";
 import BlogTableItem from "../../components/admin/BlogTableItem";
 import { fetchDashboardStats } from "../../slice/dashboard.js";
+import { FileText, MessageSquare, Edit3, Clock } from "lucide-react";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -34,52 +35,60 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex-1 p-4 md:p-10 bg-blue-50/50">
-      <div className="flex flex-wrap gap-4">
+    <div className="flex-1 p-4 md:p-10 relative overflow-y-auto">
+      {/* Stat Cards */}
+      <div className="flex flex-wrap gap-6 mb-10">
 
-        <div className="flex items-center gap-4 bg-white p-4 min-w-58 rounded shadow cursor-pointer hover:scale-105 transition-all">
-          <img src={assets.dashboard_icon_1} alt="" />
+        <div className="flex items-center gap-4 bg-white/60 backdrop-blur-md border border-white/40 p-6 min-w-58 rounded-2xl shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:bg-white/80 transition-all duration-300 cursor-pointer group">
+          <div className="bg-indigo-100 p-3 rounded-xl group-hover:scale-110 transition-transform">
+            <FileText className="w-8 h-8 opacity-80 text-indigo-600" />
+          </div>
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashboardData.blogs}</p>
-            <p className="text-gray-400 font-light">Blogs</p>
+            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{dashboardData.blogs}</p>
+            <p className="text-slate-500 font-medium tracking-wide">Blogs</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 bg-white p-4 min-w-58 rounded shadow cursor-pointer hover:scale-105 transition-all">
-          <img src={assets.dashboard_icon_2} alt="" />
+        <div className="flex items-center gap-4 bg-white/60 backdrop-blur-md border border-white/40 p-6 min-w-58 rounded-2xl shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:bg-white/80 transition-all duration-300 cursor-pointer group">
+          <div className="bg-indigo-100 p-3 rounded-xl group-hover:scale-110 transition-transform">
+             <MessageSquare className="w-8 h-8 opacity-80 text-indigo-600" />
+          </div>
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashboardData.comments}</p>
-            <p className="text-gray-400 font-light">Comments</p>
+            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{dashboardData.comments}</p>
+            <p className="text-slate-500 font-medium tracking-wide">Comments</p>
           </div>
         </div>
  
-        <div className="flex items-center gap-4 bg-white p-4 min-w-58 rounded shadow cursor-pointer hover:scale-105 transition-all">
-          <img src={assets.dashboard_icon_3} alt="" />
+        <div className="flex items-center gap-4 bg-white/60 backdrop-blur-md border border-white/40 p-6 min-w-58 rounded-2xl shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:bg-white/80 transition-all duration-300 cursor-pointer group">
+          <div className="bg-indigo-100 p-3 rounded-xl group-hover:scale-110 transition-transform">
+             <Edit3 className="w-8 h-8 opacity-80 text-indigo-600" />
+          </div>
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashboardData.drafts}</p>
-            <p className="text-gray-400 font-light">Drafts</p>
+            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{dashboardData.drafts}</p>
+            <p className="text-slate-500 font-medium tracking-wide">Drafts</p>
           </div>
         </div>
       </div>
 
+      {/* Latest Blogs Table */}
       <div>
-        <div className="flex items-center gap-3 m-4 mt-6 text-gray-600">
-          <img src={assets.dashboard_icon_4} alt="" />
-          <p>Latest Blogs</p>
+        <div className="flex items-center gap-3 m-4 mt-8 text-slate-700">
+          <Clock className="w-6 h-6 text-slate-700" />
+          <p className="text-lg font-semibold">Latest Blogs</p>
         </div>
 
-        <div className="relative max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white">
-           <table className="w-full text-sm text-gray-500">
-            <thead className="text-xs text-gray-600 text-left uppercase">
+        <div className="relative max-w-5xl overflow-hidden shadow-xl rounded-3xl bg-white/70 backdrop-blur-lg border border-white/50">
+           <table className="w-full text-sm text-slate-600">
+            <thead className="text-xs text-slate-700 text-left uppercase bg-slate-100/50">
                <tr>
-                <th scope="col" className="px-2 py-4 xl:px-6"> # </th>
-                <th scope="col" className="px-2 py-4"> Blog Title </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden"> Date </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden"> Status </th>
-                <th scope="col" className="px-2 py-4"> Actions </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> # </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> Blog Title </th>
+                <th scope="col" className="px-6 py-5 font-semibold max-sm:hidden"> Date </th>
+                <th scope="col" className="px-6 py-5 font-semibold max-sm:hidden"> Status </th>
+                <th scope="col" className="px-6 py-5 font-semibold"> Actions </th>
                </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-200/60">
               {dashboardData.recentBlogs.map((blog, index)=> {
                 return <BlogTableItem index={index+1} key={blog._id} blog={blog}/>
               })}

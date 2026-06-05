@@ -1,5 +1,6 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import { Star } from "lucide-react";
 
 const Header = () => {
   return (
@@ -7,7 +8,7 @@ const Header = () => {
       <div className="text-center mt-20 mb-8">
         <div className="inline-flex ietms-center justify-center gap-4 px-6 py-1.5 mb-4 border border-primary/40 bg-primary/10 rounded-full text-sm">
           <p>New AI feature integrated</p>
-          <img src={assets.star_icon} alt="star" className="w-2.5" />
+          <Star className="w-4 h-4 fill-primary text-primary" />
         </div>
         <h1 className="text-3xl sx:text-6xl font-semibold sm:leading-16 text-gray-700">
           Your own <span className="text-primary">blogging</span> <br />

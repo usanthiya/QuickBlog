@@ -8,3 +8,6 @@ export const SECURITY_SECRET = process.env.SECURITY_SECRET;
 export const IMAGEKIT_PUBLIC_KEY = process.env.IMAGEKIT_PUBLIC_KEY;
 export const IMAGEKIT_PRIVATE_KEY = process.env.IMAGEKIT_PRIVATE_KEY;
 export const IMAGEKIT_URL_ENDPOINT = process.env.IMAGEKIT_URL_ENDPOINT;
+
+export const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+export const LLM_ENDPOINT = process.env.LLM_ENDPOINT;

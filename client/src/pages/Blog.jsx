@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { getBlogById, getBlogComments, addComment } from "../api/blog";
 import { toast } from "react-toastify";
+import { User } from "lucide-react";
 
 const Blog = () => {
   const { id } = useParams();
@@ -106,7 +107,7 @@ const Blog = () => {
               className="relative bg-primary/2 border border-primary/5 max-w-xl p-4 rounded text-gray-600"
             >
               <div className="flex items-center gap-2 mb-2">
-                <img src={assets.user_icon} alt="User" className="w-6" />
+                <User className="w-5 h-5 text-gray-500" />
                 <p className="font-medium">{comment.name}</p>
               </div>
               <p className="text-sm max-w-md ml-8">{comment.content}</p>
@@ -153,12 +154,11 @@ const Blog = () => {
       {/* Share Buttons */}
       <div className="my-24 max-w-3xl mx-auto">
         <p className="font-semibold my-4">Share this article on social media</p>
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <img
             src={assets.facebook_icon}
-            width={50}
-            alt="Share on Facebook"
-            className="cursor-pointer hover:scale-110 transition-all"
+            alt="Facebook"
+            className="w-10 h-10 cursor-pointer hover:scale-110 transition-all bg-blue-50 p-2 rounded-full"
             onClick={() =>
               window.open(
                 `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
@@ -168,9 +168,8 @@ const Blog = () => {
           />
           <img
             src={assets.twitter_icon}
-            width={50}
-            alt="Share on Twitter"
-            className="cursor-pointer hover:scale-110 transition-all"
+            alt="Twitter"
+            className="w-10 h-10 cursor-pointer hover:scale-110 transition-all bg-blue-50 p-2 rounded-full"
             onClick={() =>
               window.open(
                 `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(data.title)}`,
@@ -180,9 +179,8 @@ const Blog = () => {
           />
           <img
             src={assets.googleplus_icon}
-            width={50}
-            alt="Share on LinkedIn"
-            className="cursor-pointer hover:scale-110 transition-all"
+            alt="LinkedIn"
+            className="w-10 h-10 cursor-pointer hover:scale-110 transition-all bg-blue-50 p-2 rounded-full"
             onClick={() =>
               window.open(
                 `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
