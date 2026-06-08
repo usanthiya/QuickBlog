@@ -74,12 +74,15 @@ JWT_SECRET=your_jwt_secret
 IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
 IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
 IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_id
+
+GEMINI_API_KEY=your-gemni-key
+LLM_ENDPOINT=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
 ```
 
 **Client** — create `client/.env`:
 
 ```env
-VITE_API_BASE_URL=http://localhost:4000
+VITE_API_URL=http://localhost:4000
 ```
 
 ### 4. Run in development
